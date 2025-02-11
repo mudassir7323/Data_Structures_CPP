@@ -16,13 +16,12 @@ public:
 
 class LinkedList
 {
-private:
+public:
     Node *head;
 
-public:
     LinkedList()
     {
-        head = nullptr;
+        this->head = nullptr;
     }
 
     ~LinkedList()
@@ -30,23 +29,22 @@ public:
         Node *temp = head;
         while (temp != nullptr)
         {
-            Node *next = temp->next;
+            Node *newnext = temp->next;
             delete temp;
-            temp = next;
+            temp = newnext;
         }
     }
 
     void insertAtEnd(int data)
     {
         Node *newNode = new Node(data);
-        if (!head)
+        if (head == nullptr)
         {
-            head = newNode;
+            this->head = newNode;
             return;
         }
-
         Node *temp = head;
-        while (temp->next)
+        while (temp->next != nullptr)
         {
             temp = temp->next;
         }
@@ -56,20 +54,26 @@ public:
     void insertAtStart(int data)
     {
         Node *newNode = new Node(data);
-        newNode->next = head;
+        if (head == nullptr)
+        {
+            this->head = newNode;
+            return;
+        }
+        Node *temp = head;
         head = newNode;
+        newNode->next = temp;
     }
 
     void insertBefore(int data, int num)
     {
-        if (!head)
+        Node *newNode = new Node(data);
+        if (head == nullptr)
         {
-            cout << "List is empty!\n";
+            cout << "List is Empty !\n";
             return;
         }
 
-        Node *newNode = new Node(data);
-        if (head->data == num)
+        else if (head->data == num)
         {
             newNode->next = head;
             head = newNode;
@@ -77,56 +81,64 @@ public:
         }
 
         Node *temp = head;
-        while (temp->next && temp->next->data != num)
+
+        while ((temp != nullptr) && (temp->next != nullptr))
         {
+            if (temp->next->data == num)
+            {
+                newNode->next = temp->next;
+                temp->next = newNode;
+                return;
+            }
             temp = temp->next;
         }
 
-        if (!temp->next)
-        {
-            cout << "Node with value " << num << " not found!\n";
-            delete newNode;
-            return;
-        }
-
-        newNode->next = temp->next;
-        temp->next = newNode;
+        cout << "The Node with Value " << num << " was not found !\n\n";
+        return;
     }
 
     void insertAfter(int data, int num)
     {
-        Node *temp = head;
-        while (temp && temp->data != num)
+        Node *newNode = new Node(data);
+        if (head == nullptr)
         {
+            cout << "List is Empty !\n";
+            return;
+        }
+
+        Node *temp = head;
+
+        while (temp != nullptr)
+        {
+            if (temp->data == num)
+            {
+                newNode->next = temp->next;
+                temp->next = newNode;
+                return;
+            }
             temp = temp->next;
         }
 
-        if (!temp)
-        {
-            cout << "Node with value " << num << " not found!\n";
-            return;
-        }
-
-        Node *newNode = new Node(data);
-        newNode->next = temp->next;
-        temp->next = newNode;
+        cout << "The Node with value " << num << " could not be found !\n\n";
+        return;
     }
 
-    void print() const
+    void print()
     {
-        if (!head)
+        if (head == nullptr)
         {
-            cout << "The list is empty!\n";
+            cout << "The List us Empty !\n";
             return;
         }
 
         Node *temp = head;
-        while (temp)
+
+        while (temp != nullptr)
         {
             cout << temp->data << " ";
             temp = temp->next;
         }
-        cout << "\n";
+        cout << "\n\n";
     }
 };
 
