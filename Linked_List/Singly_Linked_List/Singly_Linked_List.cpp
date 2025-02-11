@@ -54,14 +54,8 @@ public:
     void insertAtStart(int data)
     {
         Node *newNode = new Node(data);
-        if (head == nullptr)
-        {
-            this->head = newNode;
-            return;
-        }
-        Node *temp = head;
+        newNode -> next = head;
         head = newNode;
-        newNode->next = temp;
     }
 
     void insertBefore(int data, int num)
