@@ -54,7 +54,7 @@ public:
     void insertAtStart(int data)
     {
         Node *newNode = new Node(data);
-        newNode -> next = head;
+        newNode->next = head;
         head = newNode;
     }
 
@@ -117,6 +117,101 @@ public:
         return;
     }
 
+    void removeFromStart()
+    {
+        if (head == nullptr)
+        {
+            cout << "List is Empty !\n";
+            return;
+        }
+        Node *temp = head;
+        head = head->next;
+        delete temp;
+    }
+
+    void removeFromEnd()
+    {
+        if (head == nullptr)
+        {
+            cout << "List is Empty !\n";
+            return;
+        }
+        if (head->next == nullptr)
+        {
+            delete head;
+            return;
+        }
+
+        Node *temp = head;
+        Node* prev;
+        while (temp -> next != nullptr)
+        {
+            prev = temp;
+            temp = temp->next;
+        }
+        delete temp;
+        prev -> next = nullptr;
+    }
+
+    void removeBefore(int num)
+    {
+        if (head == nullptr)
+        {
+            cout << "List is Empty !\n";
+            return;
+        }
+        if (head->data == num)
+        {
+            cout << "No Element Present Before " << num << endl;
+            cout << num << " is First in the List !\n";
+        }
+        Node *temp = head;
+        Node *prev;
+        while (temp != nullptr && temp->next != nullptr)
+        {
+            if (temp->next->data == num)
+            {
+                prev->next = temp->next;
+                delete temp;
+                return;
+            }
+            prev = temp;
+            temp = temp->next;
+        }
+
+        cout << "Could not Find The Node with data : " << num << endl;
+        return;
+    }
+
+    void removeAfter(int num)
+    {
+        if (head == nullptr)
+        {
+            cout << "List is Empty !\n";
+            return;
+        }
+        Node *temp = head;
+        while (temp != nullptr)
+        {
+            if (temp->data == num)
+            {
+                if (temp->next == nullptr)
+                {
+                    cout << "No Node is Present After " << num << endl;
+                    return;
+                }
+                Node *nodeToDelete = temp->next;
+                temp->next = temp->next->next;
+                delete nodeToDelete;
+                return;
+            }
+            temp = temp->next;
+        }
+
+        cout << "No Node with value " << num << "Found !\n";
+        return;
+    }
+
     void print()
     {
         if (head == nullptr)
@@ -143,6 +238,8 @@ int main()
     List.insertAtEnd(20);
     List.insertAtEnd(30);
     List.insertAtEnd(40);
+    List.insertAtEnd(50);
+    List.insertAtEnd(60);
     List.print();
     List.insertAtStart(5);
     List.print();
@@ -150,4 +247,14 @@ int main()
     List.print();
     List.insertBefore(25, 30);
     List.print();
+
+
+    List.removeFromStart();
+    List.print();
+    List.removeFromEnd();
+    List.print();
+    // List.removeBefore(30);
+    // List.print();
+    // List.removeAfter(30);
+    // List.print();
 }
